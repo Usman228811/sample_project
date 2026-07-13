@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val dataModule = module {
 
-    factory<SettingsRepository> { SettingsRepositoryImpl(get()) }
+    single<SettingsRepository> { SettingsRepositoryImpl(get()) }
 
 }

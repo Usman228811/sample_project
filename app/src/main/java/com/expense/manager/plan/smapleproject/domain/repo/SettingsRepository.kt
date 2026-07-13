@@ -5,7 +5,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
 
-    fun isDarkModeEnabled(): Boolean
+    val settings: Flow<Settings>
 
-    fun setDarkMode(enabled: Boolean)
+    /** The value available synchronously, for seeding state before the first [settings] emission. */
+    fun currentSettings(): Settings
+
+    suspend fun setDarkMode(enabled: Boolean)
+
+    suspend fun setNotifications(enabled: Boolean)
+
+    suspend fun setDynamicColor(enabled: Boolean)
 }

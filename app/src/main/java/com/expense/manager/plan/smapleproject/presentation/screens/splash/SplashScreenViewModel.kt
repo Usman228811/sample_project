@@ -177,7 +177,7 @@ class SplashScreenViewModel : ViewModel() {
             isInterAdCalled = true
             _state.update {
                 it.copy(
-                    loadAndShow = false
+                    loadAndShow = true
                 )
             }
             splashAdController.initSplashInterstitial(

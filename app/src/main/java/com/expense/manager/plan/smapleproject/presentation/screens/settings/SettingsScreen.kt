@@ -21,13 +21,14 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = koinViewModel()
 ) {
 
+    val settings by viewModel.state.collectAsStateWithLifecycle()
 
     LazyColumn {
 
         item {
             SettingSwitch(
                 title = "Dark Mode",
-                checked = viewModel.isDarkModeEnabled(),
+                checked = settings.darkMode,
                 onCheckedChange = viewModel::onDarkModeChanged
             )
         }
@@ -35,7 +36,7 @@ fun SettingsScreen(
         item {
             SettingSwitch(
                 title = "Notifications",
-                checked = false,
+                checked = settings.notifications,
                 onCheckedChange = viewModel::onNotificationsChanged
             )
         }
@@ -43,7 +44,7 @@ fun SettingsScreen(
         item {
             SettingSwitch(
                 title = "Dynamic Color",
-                checked = false,
+                checked = settings.dynamicColor,
                 onCheckedChange = viewModel::onDynamicColorChanged
             )
         }

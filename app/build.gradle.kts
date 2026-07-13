@@ -25,15 +25,17 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            // TODO: replace with the real AdMob app ID before shipping any app built from this template.
+            resValue("string", "app_id", "ca-app-pub-3940256099942544~3347511713")
+
+            // R8: code shrinking + obfuscation. Keep rules live in src/main/keepRules/.
+            isMinifyEnabled = true
+            isShrinkResources = true
         }
         debug {
             resValue("string", "app_id", "ca-app-pub-3940256099942544~3347511713")
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
     compileOptions {
@@ -68,6 +70,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

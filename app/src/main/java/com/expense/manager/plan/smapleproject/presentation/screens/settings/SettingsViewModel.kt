@@ -2,16 +2,22 @@ package com.expense.manager.plan.smapleproject.presentation.screens.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.expense.manager.plan.smapleproject.domain.models.Settings
 import com.expense.manager.plan.smapleproject.domain.usecase.SettingsUseCase
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-
 class SettingsViewModel(
-    val settingsUseCase: SettingsUseCase,
+    private val settingsUseCase: SettingsUseCase,
 ) : ViewModel() {
 
-
-    fun isDarkModeEnabled() = settingsUseCase.isDarkModeEnabled()
+    val state: StateFlow<Settings> = settingsUseCase.settings.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = settingsUseCase.currentSettings()
+    )
 
     fun onDarkModeChanged(enabled: Boolean) {
         viewModelScope.launch {
@@ -20,10 +26,14 @@ class SettingsViewModel(
     }
 
     fun onNotificationsChanged(enabled: Boolean) {
-
+        viewModelScope.launch {
+            settingsUseCase.setNotifications(enabled)
+        }
     }
 
     fun onDynamicColorChanged(enabled: Boolean) {
-
+        viewModelScope.launch {
+            settingsUseCase.setDynamicColor(enabled)
+        }
     }
 }
