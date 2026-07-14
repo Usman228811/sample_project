@@ -1,27 +1,32 @@
 package com.expense.manager.plan.smapleproject
 
-import android.R.attr.banner
+import android.app.Activity
 import android.app.Application
-import android.app.LocaleManager
+import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import com.expense.manager.plan.smapleproject.core.di.appModule
 import com.expense.manager.plan.smapleproject.core.di.dataModule
 import com.expense.manager.plan.smapleproject.core.di.domainModule
 import com.expense.manager.plan.smapleproject.core.di.presentationModule
 import com.expense.manager.plan.smapleproject.core.utils.AppLocaleManager
-import com.expense.manager.plan.smapleproject.presentation.navigation.AppRoute
 import io.monetize.kit.sdk.BuildConfig
 import io.monetize.kit.sdk.core.utils.adtype.BannerAdType
 import io.monetize.kit.sdk.core.utils.adtype.NativeAdType
 import io.monetize.kit.sdk.core.utils.init.AdKit
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import java.lang.Compiler.enable
 
-class AppClass : Application() {
+class AppClass : Application(), Application.ActivityLifecycleCallbacks {
+
+
+    companion object {
+        var appContext: Context? = null
+    }
 
     override fun onCreate() {
         super.onCreate()
+        appContext = this
 
         AppLocaleManager.applyStoredLocale(this)
         startKoin {
@@ -63,50 +68,43 @@ class AppClass : Application() {
                 long("splash_time", 16)
 
 
-                native("exit_native"){
+                native("exit_native") {
                     enable(true)
                     ctaColor("")
                     bgColor("")
                     adType(NativeAdType.SMALL_NATIVE)
                 }
-                native("home_native"){
+                native("home_native") {
                     enable(true)
                     ctaColor("#FFFFFF")
                     adType(NativeAdType.SMALL_NATIVE_MEDIA_VIEW)
                     refreshTime(7) // If provided, the native ad will refresh after 7 seconds
                 }
-                native("subscription_native"){
+                native("subscription_native") {
                     enable(true)
                     ctaColor("")
                     bgColor("")
                     adType(NativeAdType.SMALL_NATIVE)
                 }
 
-                fullScreen("splash_inter"){
+                fullScreen("splash_inter") {
                     enable(true)
                 }
-                fullScreen("home_inter"){
+                fullScreen("home_inter") {
                     enable(true)
                     instantInter(true)
                 }
-                fullScreen("inter_btn_plant"){
-                    enable(true)
-                }
-                fullScreen("inter_btn_plant"){
-                    enable(true)
-                    instantReward(true)
-                }
-                banner("home_banner"){
+                banner("home_banner") {
                     enable(true)
                     bannerType(BannerAdType.LARGE_ANCHORED_ADAPTIVE_BANNER)
                 }
-                banner("premium_banner"){
+                banner("premium_banner") {
                     enable(true)
                     bannerType(BannerAdType.BOTTOM_COLLAPSIBLE_BANNER)
                 }
                 overAllNativeColor(ctaColor = "#964B00", bgColor = "#FF03DAC5")
             },
-            onDefaultConfigGenerated = {  defaultConfigs ->
+            onDefaultConfigGenerated = { defaultConfigs ->
                 Log.d("opoppp", "onDefaultConfigGenerated: $defaultConfigs")
             },
             onInitSdk = {
@@ -116,5 +114,41 @@ class AppClass : Application() {
         )
 
 
+    }
+
+    fun initializeAppClass() {
+        try {
+            registerActivityLifecycleCallbacks(this)
+        } catch (_: Exception) {
+        }
+    }
+
+
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
+
+    override fun onActivityStarted(activity: Activity) {
+        handleCurrentActivity(activity)
+    }
+
+
+    private fun handleCurrentActivity(activity: Activity) {
+        AdKit.interHelper.setAppInPause(false)
+        AdKit.openAdManager.setActivity(activity)
+    }
+
+    override fun onActivityResumed(activity: Activity) {
+        handleCurrentActivity(activity)
+    }
+
+    override fun onActivityStopped(activity: Activity) {}
+    override fun onActivityPaused(activity: Activity) {
+        AdKit.interHelper.setAppInPause(true)
+    }
+
+    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
+    override fun onActivityDestroyed(activity: Activity) {
+
+        AdKit.openAdManager.setActivity(null)
+        AdKit.interHelper.setAppInPause(false)
     }
 }

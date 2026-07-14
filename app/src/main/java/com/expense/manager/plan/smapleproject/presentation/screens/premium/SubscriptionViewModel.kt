@@ -172,9 +172,7 @@ class SubscriptionViewModel : ViewModel() {
     }
 
     fun purchase(activity: Activity) {
-        AdKit.premiumHelper.purchase(activity, selectedId(), false, onUserDismissedPaywall = {
-            Log.d("usman", "subscription purchase: user dismissed the paywall")
-        })
+        AdKit.premiumHelper.purchase(activity, selectedId(), false, onUserDismissedPaywall = {})
     }
 
     fun purchaseProduct(activity: Activity) {
@@ -182,12 +180,6 @@ class SubscriptionViewModel : ViewModel() {
             activity = activity,
             productId = LIFE_TIME_ID,
             onUserDismissedPaywall = {
-                Toast.makeText(
-                    activity,
-                    R.string.subscription_paywall_dismissed,
-                    Toast.LENGTH_SHORT
-                ).show()
-                Log.d("usman", "one time purchase: user dismissed the paywall")
 
             })
     }

@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+//    alias(libs.plugins.gmsServicePlugin)
+//    alias(libs.plugins.firebaseCrashlyticsPlugin)
+//    alias(libs.plugins.firebasePerfPlugin)
 
 }
 

@@ -28,26 +28,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.expense.manager.plan.smapleproject.R
 import com.expense.manager.plan.smapleproject.core.utils.AppLanguageModel
+import com.expense.manager.plan.smapleproject.core.utils.AppLocaleManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LanguageScreen(
     viewModel: LanguageViewModel,
     onBackClick: () -> Unit,
-    onApplyClick: (String) -> Unit
+    onApplyClick: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+
+    val applyAndMoveNext: () -> Unit = {
+        val selectedLanguageCode = viewModel.persistSelection()
+        AppLocaleManager.updateLanguage(context, selectedLanguageCode)
+        onApplyClick()
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
     ) {
 
         // Top Bar
@@ -114,7 +122,7 @@ fun LanguageScreen(
 
         Button(
             onClick = {
-                onApplyClick(viewModel.persistSelection())
+                applyAndMoveNext()
             },
             modifier = Modifier
                 .fillMaxWidth()

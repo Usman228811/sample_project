@@ -2,6 +2,7 @@ package com.expense.manager.plan.smapleproject.presentation.screens.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +37,7 @@ fun SettingsScreen(
         item {
             SettingRow(
                 title = stringResource(R.string.settings_language),
+                subtitle = settings.languageName,
                 onClick = goLanguage
             )
 
@@ -71,6 +74,7 @@ fun SettingsScreen(
 @Composable
 fun SettingRow(
     title: String,
+    subtitle: String,
     onClick: () -> Unit
 ) {
 
@@ -83,7 +87,16 @@ fun SettingRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Text(title)
+        Column(modifier = Modifier.weight(1f)) {
+
+            Text(title)
+
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
 
         Icon(
             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,

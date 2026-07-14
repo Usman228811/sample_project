@@ -13,19 +13,22 @@ class SettingsRepositoryImpl(
     override val settings: Flow<Settings> = combine(
         preferences.darkMode,
         preferences.notifications,
-        preferences.dynamicColor
-    ) { darkMode, notifications, dynamicColor ->
+        preferences.dynamicColor,
+        preferences.languageName
+    ) { darkMode, notifications, dynamicColor, languageName ->
         Settings(
             darkMode = darkMode,
             notifications = notifications,
-            dynamicColor = dynamicColor
+            dynamicColor = dynamicColor,
+            languageName = languageName
         )
     }
 
     override fun currentSettings(): Settings = Settings(
         darkMode = preferences.isDarkModeEnabled(),
         notifications = preferences.isNotificationsEnabled(),
-        dynamicColor = preferences.isDynamicColorEnabled()
+        dynamicColor = preferences.isDynamicColorEnabled(),
+        languageName = preferences.selectedLanguageName
     )
 
     override suspend fun setDarkMode(enabled: Boolean) = preferences.setDarkMode(enabled)

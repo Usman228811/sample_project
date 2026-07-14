@@ -3,5 +3,8 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.gmsServicePlugin) apply false
+    alias(libs.plugins.firebaseCrashlyticsPlugin) apply false
+    alias(libs.plugins.firebasePerfPlugin) apply false
 
 }

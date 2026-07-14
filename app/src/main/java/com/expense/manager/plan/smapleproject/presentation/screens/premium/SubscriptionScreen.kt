@@ -171,23 +171,8 @@ fun SubscriptionScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            AdKitNativeAdView(
-                nativeControllerConfig = NativeControllerConfig(
-                    placementKey = "subscription_native",
-                    adIdKey = "native_common"
-                )
-            )
-
-            Spacer(Modifier.height(20.dp))
         }
 
-        // BANNER
-        AdKitBannerAdView(
-            bannerControllerConfig = BannerControllerConfig(
-                placementKey = "premium_banner",
-                adIdKey = "banner_common"
-            )
-        )
     }
 }
 

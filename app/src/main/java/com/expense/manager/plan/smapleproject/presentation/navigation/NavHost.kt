@@ -58,8 +58,7 @@ fun AppNavHost(
             LanguageScreen(
                 viewModel = koinViewModel(),
                 onBackClick = navigationActions.goBack,
-                onApplyClick = { languageCode ->
-                    AppLocaleManager.updateLanguage(activity, languageCode)
+                onApplyClick = {  ->
                     activity.restartForLanguageChange()
                 }
             )
