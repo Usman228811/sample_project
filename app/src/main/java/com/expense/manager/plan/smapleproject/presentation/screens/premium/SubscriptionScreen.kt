@@ -2,6 +2,7 @@ package com.expense.manager.plan.smapleproject.presentation.screens.premium
 
 import android.app.Activity
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,35 +15,29 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.expense.manager.plan.smapleproject.R
-import io.monetize.kit.sdk.core.utils.adtype.BannerControllerConfig
-import io.monetize.kit.sdk.core.utils.adtype.NativeControllerConfig
-import io.monetize.kit.sdk.presentation.ui.banner.AdKitBannerAdView
-import io.monetize.kit.sdk.presentation.ui.native_ad.AdKitNativeAdView
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -60,124 +55,133 @@ fun SubscriptionScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFFF4F6FF),
-                        Color(0xFFE9ECFF)
-                    )
-                )
-            )
+            .background(MaterialTheme.colorScheme.background)
     ) {
-
-        // HEADER
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    Brush.horizontalGradient(
-                        colors = listOf(
-                            Color(0xFF5B5FEF),
-                            Color(0xFF2E2F6E)
-                        )
-                    )
-                )
-                .padding(vertical = 18.dp)
-        ) {
-
-            Text(
-                text = stringResource(R.string.subscription_premium_plans),
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                color = Color.White,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
 
         Column(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp)
         ) {
 
-            SectionTitle(stringResource(R.string.subscription_plans))
+            PremiumHeader()
 
-            SubscriptionOption(
-                title = stringResource(R.string.subscription_remove_ads),
-                price = state.removeAdsPrice,
-                isSelected = state.selectedButtonPos == 0,
-                onClick = { subscriptionViewModel.updateSelectedButtonPos(0) }
-            )
+            Column(modifier = Modifier.padding(16.dp)) {
 
-            Spacer(Modifier.height(12.dp))
+                SectionTitle(stringResource(R.string.subscription_plans))
 
-            SubscriptionOption(
-                title = stringResource(R.string.subscription_feature_1),
-                price = state.feature1Price,
-                isSelected = state.selectedButtonPos == 1,
-                onClick = { subscriptionViewModel.updateSelectedButtonPos(1) }
-            )
+                Spacer(Modifier.height(12.dp))
 
-            Spacer(Modifier.height(12.dp))
+                SubscriptionOption(
+                    title = stringResource(R.string.subscription_remove_ads),
+                    price = state.removeAdsPrice,
+                    isSelected = state.selectedButtonPos == 0,
+                    onClick = { subscriptionViewModel.updateSelectedButtonPos(0) }
+                )
 
-            SubscriptionOption(
-                title = stringResource(R.string.subscription_feature_2),
-                price = state.feature2Price,
-                isSelected = state.selectedButtonPos == 2,
-                onClick = { subscriptionViewModel.updateSelectedButtonPos(2) }
-            )
+                Spacer(Modifier.height(10.dp))
 
-            Spacer(Modifier.height(12.dp))
+                SubscriptionOption(
+                    title = stringResource(R.string.subscription_feature_1),
+                    price = state.feature1Price,
+                    isSelected = state.selectedButtonPos == 1,
+                    onClick = { subscriptionViewModel.updateSelectedButtonPos(1) }
+                )
 
-            SubscriptionOption(
-                title = stringResource(R.string.subscription_feature_3),
-                price = state.feature3Price,
-                isSelected = state.selectedButtonPos == 3,
-                onClick = { subscriptionViewModel.updateSelectedButtonPos(3) }
-            )
+                Spacer(Modifier.height(10.dp))
 
-            Spacer(Modifier.height(16.dp))
+                SubscriptionOption(
+                    title = stringResource(R.string.subscription_feature_2),
+                    price = state.feature2Price,
+                    isSelected = state.selectedButtonPos == 2,
+                    onClick = { subscriptionViewModel.updateSelectedButtonPos(2) }
+                )
 
-            PrimaryButton(
-                text = stringResource(state.buttonText),
-                onClick = { subscriptionViewModel.purchase(activity) }
-            )
+                Spacer(Modifier.height(10.dp))
 
-            Spacer(Modifier.height(28.dp))
+                SubscriptionOption(
+                    title = stringResource(R.string.subscription_feature_3),
+                    price = state.feature3Price,
+                    isSelected = state.selectedButtonPos == 3,
+                    onClick = { subscriptionViewModel.updateSelectedButtonPos(3) }
+                )
 
-            HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
+                Spacer(Modifier.height(20.dp))
 
-            Spacer(Modifier.height(20.dp))
+                PrimaryButton(
+                    text = stringResource(state.buttonText),
+                    onClick = { subscriptionViewModel.purchase(activity) }
+                )
 
-            SectionTitle(stringResource(R.string.subscription_lifetime_plan))
+                Spacer(Modifier.height(32.dp))
 
-            Text(
-                text = state.oneTimePrice,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 30.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF2E2F6E)
-            )
+                SectionTitle(stringResource(R.string.subscription_lifetime_plan))
 
-            PrimaryButton(
-                text = stringResource(state.buttonTextLifeTime),
-                onClick = { subscriptionViewModel.purchaseProduct(activity) }
-            )
+                Spacer(Modifier.height(12.dp))
 
-            Spacer(Modifier.height(20.dp))
+                LifetimeCard(
+                    price = state.oneTimePrice,
+                    buttonText = stringResource(state.buttonTextLifeTime),
+                    onClick = { subscriptionViewModel.purchaseProduct(activity) }
+                )
 
+                Spacer(Modifier.height(16.dp))
+            }
         }
-
     }
 }
 
 @Composable
-fun SubscriptionOption(
+private fun PremiumHeader() {
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.primaryContainer)
+            .statusBarsPadding()
+            .padding(horizontal = 24.dp, vertical = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Box(
+            modifier = Modifier
+                .size(64.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = CircleShape
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+
+            Icon(
+                imageVector = Icons.Default.WorkspacePremium,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.size(36.dp)
+            )
+        }
+
+        Spacer(Modifier.height(16.dp))
+
+        Text(
+            text = stringResource(R.string.subscription_premium_plans),
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+
+        Spacer(Modifier.height(6.dp))
+
+        Text(
+            text = stringResource(R.string.subscription_header_subtitle),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+private fun SubscriptionOption(
     title: String,
     price: String,
     isSelected: Boolean,
@@ -187,15 +191,20 @@ fun SubscriptionOption(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() },
-        shape = RoundedCornerShape(16.dp),
+            .clickable(onClick = onClick),
+        shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected)
-                Color(0xFFEDEBFF)
-            else
-                Color.White
+            containerColor = if (isSelected) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.surfaceContainer
+            }
         ),
-        elevation = CardDefaults.cardElevation(6.dp)
+        border = if (isSelected) {
+            BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+        } else {
+            null
+        }
     ) {
 
         Row(
@@ -206,69 +215,154 @@ fun SubscriptionOption(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = if (isSelected) Color(0xFF5B5FEF) else Color.Black
-            )
+            Row(
+                modifier = Modifier.weight(1f),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                SelectionDot(isSelected = isSelected)
+
+                Spacer(Modifier.size(12.dp))
+
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = if (isSelected) {
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurface
+                    }
+                )
+            }
 
             Text(
                 text = price,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF2E2F6E)
+                style = MaterialTheme.typography.titleSmall,
+                color = if (isSelected) {
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                }
             )
         }
     }
 }
 
 @Composable
-fun PrimaryButton(
+private fun SelectionDot(isSelected: Boolean) {
+
+    Box(
+        modifier = Modifier
+            .size(22.dp)
+            .background(
+                color = if (isSelected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.surfaceContainerHigh
+                },
+                shape = CircleShape
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+
+        if (isSelected) {
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.size(14.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun LifetimeCard(
+    price: String,
+    buttonText: String,
+    onClick: () -> Unit
+) {
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        )
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Text(
+                text = price,
+                style = MaterialTheme.typography.displaySmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            Spacer(Modifier.height(4.dp))
+
+            Text(
+                text = stringResource(R.string.subscription_lifetime_caption),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Spacer(Modifier.height(20.dp))
+
+            PrimaryButton(
+                text = buttonText,
+                onClick = onClick
+            )
+        }
+    }
+}
+
+@Composable
+private fun PrimaryButton(
     text: String,
     onClick: () -> Unit
 ) {
 
     Button(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF5B5FEF)
-        )
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp),
+        shape = MaterialTheme.shapes.medium
     ) {
 
         Text(
             text = text,
-            fontWeight = FontWeight.Bold,
-            color = Color.White
+            style = MaterialTheme.typography.labelLarge
         )
     }
 }
 
 @Composable
-fun SectionTitle(title: String) {
+private fun SectionTitle(title: String) {
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
 
         Box(
             modifier = Modifier
                 .size(width = 4.dp, height = 18.dp)
-                .background(Color(0xFF5B5FEF), RoundedCornerShape(50))
+                .background(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = CircleShape
+                )
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.size(8.dp))
 
         Text(
             text = title,
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF2E2F6E)
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }

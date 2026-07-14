@@ -1,7 +1,10 @@
 package com.expense.manager.plan.smapleproject.presentation.screens.language
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,8 +19,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -101,7 +105,9 @@ fun LanguageScreen(
 
         // Language List
         LazyColumn(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(
                 items = state.filteredLanguages(),
@@ -118,8 +124,6 @@ fun LanguageScreen(
             }
         }
 
-        HorizontalDivider()
-
         Button(
             onClick = {
                 applyAndMoveNext()
@@ -127,9 +131,13 @@ fun LanguageScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .height(52.dp)
+                .height(52.dp),
+            shape = MaterialTheme.shapes.medium
         ) {
-            Text(stringResource(R.string.language_apply))
+            Text(
+                text = stringResource(R.string.language_apply),
+                style = MaterialTheme.typography.labelLarge
+            )
         }
     }
 }
@@ -140,34 +148,61 @@ private fun LanguageItem(
     selected: Boolean,
     onClick: () -> Unit
 ) {
-    Row(
+
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(horizontal = 20.dp, vertical = 14.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .clickable(onClick = onClick),
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(
+            containerColor = if (selected) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.surfaceContainer
+            }
+        ),
+        border = if (selected) {
+            BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+        } else {
+            null
+        }
     ) {
 
-        Column(
-            modifier = Modifier.weight(1f)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = language.languageName,
-                style = MaterialTheme.typography.titleMedium
-            )
 
-            Text(
-                text = language.languageDes,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = language.languageName,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = if (selected) {
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurface
+                    }
+                )
+
+                Text(
+                    text = language.languageDes,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = if (selected) {
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    }
+                )
+            }
+
+            RadioButton(
+                selected = selected,
+                onClick = onClick
             )
         }
-
-        RadioButton(
-            selected = selected,
-            onClick = onClick
-        )
     }
-
-    HorizontalDivider()
 }

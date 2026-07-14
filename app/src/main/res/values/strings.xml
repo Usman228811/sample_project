@@ -7,12 +7,50 @@
     <string name="nav_settings">Settings</string>
 
     <!-- Home -->
-    <string name="premium_screen">Premium Screen</string>
+    <string name="home_title">AdKit Sample</string>
+    <string name="home_subtitle">A production-ready starting point for your next app.</string>
+    <string name="home_whats_inside">What\'s inside</string>
+    <string name="home_premium_title">Go Premium</string>
+    <string name="home_premium_subtitle">Remove ads and unlock every feature</string>
+
+    <string name="feature_clean_architecture">Clean Architecture</string>
+    <string name="feature_clean_architecture_desc">Data, domain and presentation layers already split</string>
+    <string name="feature_koin">Koin</string>
+    <string name="feature_koin_desc">Dependency injection wired for every layer</string>
+    <string name="feature_navigation">Compose Navigation</string>
+    <string name="feature_navigation_desc">Splash, language, onboarding and tabs</string>
+    <string name="feature_monetization">Monetization Kit</string>
+    <string name="feature_monetization_desc">Ads, billing, consent and in-app updates</string>
+    <string name="feature_remote_config">Remote Config</string>
+    <string name="feature_remote_config_desc">Flip screens and ads on without a release</string>
+    <string name="feature_theming">Theming</string>
+    <string name="feature_theming_desc">Dark mode and dynamic color, saved to prefs</string>
+    <string name="feature_localization">Localization</string>
+    <string name="feature_localization_desc">In-app language picker, persisted per user</string>
+
+    <!-- Exit -->
+    <string name="exit_title">Exit app?</string>
+    <string name="exit_message">Are you sure you want to close the app?</string>
+    <string name="exit_yes">Yes</string>
+    <string name="exit_no">No</string>
+
+    <!-- Search -->
+    <string name="search_title">Search</string>
+    <string name="search_placeholder">Search anything</string>
+    <string name="search_empty_prompt">Start typing to search.</string>
+    <string name="search_empty_results">No results for \"%1$s\".</string>
 
     <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_group_general">GENERAL</string>
+    <string name="settings_group_appearance">APPEARANCE</string>
+    <string name="settings_group_notifications">NOTIFICATIONS</string>
     <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_dark_mode_desc">Use a dark color scheme</string>
     <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_desc">Get updates and reminders</string>
     <string name="settings_dynamic_color">Dynamic Color</string>
+    <string name="settings_dynamic_color_desc">Take colors from your wallpaper</string>
     <string name="settings_language">Language</string>
 
     <!-- Language -->
@@ -22,11 +60,11 @@
     <string name="back">Back</string>
 
     <!-- Splash -->
-    <string name="splash_preparing_experience">Preparing Experience…</string>
-    <string name="splash_launching_ad">Launching Ad…</string>
-    <string name="splash_ad_ready">Ad Ready</string>
-    <string name="splash_tap_to_continue">Tap below to continue</string>
-    <string name="splash_show_ad_and_continue">Show Ad &amp; Continue</string>
+    <string name="splash_tagline">Clean architecture, Koin, Compose and monetization — ready to ship.</string>
+    <string name="splash_preparing_experience">Preparing experience…</string>
+    <string name="splash_launching_ad">Launching ad…</string>
+    <string name="splash_tap_to_continue">Your ad is ready</string>
+    <string name="splash_show_ad_and_continue">Show ad &amp; continue</string>
 
     <!-- Onboarding -->
     <string name="onboarding_skip">Skip</string>
@@ -34,15 +72,17 @@
     <string name="onboarding_get_started">Get Started</string>
     <string name="onboarding_title_1">Welcome</string>
     <string name="onboarding_description_1">A short line about what your app does and why it is worth keeping.</string>
-    <string name="onboarding_title_2">Stay Organized</string>
+    <string name="onboarding_title_2">Make It Yours</string>
     <string name="onboarding_description_2">Describe the second thing that makes your app useful day to day.</string>
     <string name="onboarding_title_3">You Are All Set</string>
     <string name="onboarding_description_3">Close with the payoff, then send the user into the app.</string>
 
     <!-- Subscription -->
     <string name="subscription_premium_plans">Premium Plans</string>
+    <string name="subscription_header_subtitle">Remove ads and unlock everything the app has to offer.</string>
     <string name="subscription_plans">Subscription Plans</string>
     <string name="subscription_lifetime_plan">Lifetime Plan</string>
+    <string name="subscription_lifetime_caption">One payment, yours forever</string>
     <string name="subscription_remove_ads">Remove Ads</string>
     <string name="subscription_feature_1">Feature 1</string>
     <string name="subscription_feature_2">Feature 2</string>

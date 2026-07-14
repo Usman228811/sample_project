@@ -1,27 +1,33 @@
 package com.expense.manager.plan.smapleproject.presentation.screens.splash.content
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.expense.manager.plan.smapleproject.R
 import com.expense.manager.plan.smapleproject.presentation.screens.splash.state.SplashScreenState
 
@@ -31,118 +37,163 @@ fun SplashScreenContent(
     showAd: () -> Unit
 ) {
 
+    // The ad takes a while to arrive, so show real progress instead of an idle spinner.
+    val progress by animateFloatAsState(
+        targetValue = state.progress / 100f,
+        label = "splashProgress"
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFFF4F6FF),
-                        Color(0xFFE9ECFF)
+                        MaterialTheme.colorScheme.surface,
+                        MaterialTheme.colorScheme.surfaceContainerHigh
                     )
                 )
+            )
+            .padding(32.dp)
+    ) {
+
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            BrandMark()
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = stringResource(R.string.splash_tagline),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Bottom
+        ) {
+
+            when {
+
+                // The ad is still loading.
+                !state.onAdLoaded -> {
+
+                    LoadingFooter(
+                        progress = progress,
+                        label = stringResource(R.string.splash_preparing_experience)
+                    )
+                }
+
+                // Loaded, and it shows itself — nothing for the user to do.
+                state.loadAndShow -> {
+
+                    LoadingFooter(
+                        progress = progress,
+                        label = stringResource(R.string.splash_launching_ad)
+                    )
+                }
+
+                // Loaded, but it waits for a tap.
+                else -> {
+
+                    Button(
+                        onClick = showAd,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp)
+                    ) {
+
+                        Icon(
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+
+                        Spacer(modifier = Modifier.size(8.dp))
+
+                        Text(
+                            text = stringResource(R.string.splash_show_ad_and_continue),
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Text(
+                        text = stringResource(R.string.splash_tap_to_continue),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun BrandMark() {
+
+    Box(
+        modifier = Modifier
+            .size(96.dp)
+            .background(
+                color = MaterialTheme.colorScheme.primaryContainer,
+                shape = CircleShape
             ),
         contentAlignment = Alignment.Center
     ) {
 
-        when {
+        Icon(
+            imageVector = Icons.Default.Bolt,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            modifier = Modifier.size(48.dp)
+        )
+    }
+}
 
-            // 1️⃣ AD LOADING STATE
-            !state.onAdLoaded -> {
+@Composable
+private fun LoadingFooter(
+    progress: Float,
+    label: String
+) {
 
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
-                    CircularProgressIndicator(
-                        color = Color(0xFF5B5FEF)
-                    )
+        LinearProgressIndicator(
+            progress = { progress },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(6.dp),
+            strokeCap = androidx.compose.ui.graphics.StrokeCap.Round
+        )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
-                    Text(
-                        text = stringResource(R.string.splash_preparing_experience),
-                        color = Color(0xFF2E2F6E),
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-            }
-
-            // 2️⃣ AUTO SHOW MODE (no UI needed)
-            state.onAdLoaded && state.loadAndShow -> {
-
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                    CircularProgressIndicator(color = Color(0xFF5B5FEF))
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    Text(
-                        text = stringResource(R.string.splash_launching_ad),
-                        color = Color(0xFF2E2F6E)
-                    )
-                }
-            }
-
-            // 3️⃣ MANUAL SHOW MODE (button)
-            state.onAdLoaded && !state.loadAndShow -> {
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                    Box(
-                        modifier = Modifier
-                            .size(72.dp)
-                            .background(
-                                Color(0xFF5B5FEF).copy(alpha = 0.1f),
-                                shape = CircleShape
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "🎬",
-                            fontSize = 30.sp
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Text(
-                        text = stringResource(R.string.splash_ad_ready),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF2E2F6E)
-                    )
-
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Text(
-                        text = stringResource(R.string.splash_tap_to_continue),
-                        color = Color.Gray,
-                        fontSize = 13.sp
-                    )
-
-                    Spacer(modifier = Modifier.height(18.dp))
-
-                    Button(
-                        onClick = showAd,
-                        shape = RoundedCornerShape(16.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF5B5FEF)
-                        )
-                    ) {
-                        Text(
-                            text = stringResource(R.string.splash_show_ad_and_continue),
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-        }
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
