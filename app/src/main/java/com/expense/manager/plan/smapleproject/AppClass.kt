@@ -68,6 +68,10 @@ class AppClass : Application(), Application.ActivityLifecycleCallbacks {
                 long("splash_time", 16)
 
 
+                long("langAppear", 1)
+                long("onBoardAppear", 1)
+
+
                 native("exit_native") {
                     enable(true)
                     ctaColor("")

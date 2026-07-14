@@ -15,14 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.expense.manager.plan.smapleproject.AppClass.Companion.appContext
+import com.expense.manager.plan.smapleproject.core.utils.AppFlowManager
 import com.expense.manager.plan.smapleproject.presentation.AppViewModel
 import com.expense.manager.plan.smapleproject.presentation.navigation.AppNavHost
 import com.expense.manager.plan.smapleproject.presentation.navigation.AppRoute
 import com.expense.manager.plan.smapleproject.ui.theme.SmapleProjectTheme
 import io.monetize.kit.sdk.core.utils.init.AdKit
+import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
+
+    private val appFlowManager: AppFlowManager by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,10 +36,12 @@ class MainActivity : ComponentActivity() {
         val startRoute = intent?.extras?.getString(EXTRA_START_ROUTE)
 
         // Only a locale relaunch carries a start route; a cold launch is the one that has to boot
-        // the SDK and begin at the splash.
-        if (startRoute == null) {
+        // the SDK, begin at the splash, and count as a new session. A recreation (savedInstanceState
+        // present) is neither, or rotating the phone would burn through the language/onboarding rules.
+        if (startRoute == null && savedInstanceState == null) {
             (appContext as AppClass).initializeAppClass()
             AdKit.openAdManager.setCurrentNavigationRoute(AppRoute.SplashRoute.route)
+            appFlowManager.startNewSession()
         }
 
         enableEdgeToEdge()

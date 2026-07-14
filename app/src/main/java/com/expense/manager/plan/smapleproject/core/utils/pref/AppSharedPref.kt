@@ -39,11 +39,15 @@ class AppSharedPref(context: Context) {
         prefs.edit { putBoolean(key, value) }
     }
 
-    /** False until the user finishes the first-run flow (language -> onboarding). */
-    var isOnboardingCompleted: Boolean
-        get() = prefs.getBoolean(KEY_ONBOARDING_COMPLETED, false)
+    /**
+     * How many times the app has been cold started, counting from 1 on the very first launch.
+     * The language and onboarding screens appear based on this, so it must only advance on a real
+     * launch — not on the relaunch that applies a locale.
+     */
+    var sessionNumber: Int
+        get() = prefs.getInt(KEY_SESSION_NUMBER, 0)
         set(value) {
-            prefs.edit { putBoolean(KEY_ONBOARDING_COMPLETED, value) }
+            prefs.edit { putInt(KEY_SESSION_NUMBER, value) }
         }
 
     var selectedLanguageKey: String
@@ -92,7 +96,7 @@ class AppSharedPref(context: Context) {
         private const val KEY_DYNAMIC_COLOR = "dynamic_color"
         private const val KEY_LANGUAGE_KEY = "selectedLanguageKey"
         private const val KEY_LANGUAGE_NAME = "selectedLanguageName"
-        private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
+        private const val KEY_SESSION_NUMBER = "session_number"
 
         private const val DEFAULT_DARK_MODE = false
         private const val DEFAULT_NOTIFICATIONS = true

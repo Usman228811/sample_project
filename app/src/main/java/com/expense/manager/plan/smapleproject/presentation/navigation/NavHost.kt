@@ -11,11 +11,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.expense.manager.plan.smapleproject.MainActivity
-import com.expense.manager.plan.smapleproject.core.utils.pref.AppSharedPref
+import com.expense.manager.plan.smapleproject.core.utils.AppFlowManager
 import com.expense.manager.plan.smapleproject.presentation.screens.language.LanguageScreen
 import com.expense.manager.plan.smapleproject.presentation.screens.main.MainScreen
 import com.expense.manager.plan.smapleproject.presentation.screens.onboarding.OnboardingScreen
-import com.expense.manager.plan.smapleproject.presentation.screens.onboarding.OnboardingViewModel
 import com.expense.manager.plan.smapleproject.presentation.screens.premium.SubscriptionScreen
 import com.expense.manager.plan.smapleproject.presentation.screens.splash.SplashScreen
 import org.koin.androidx.compose.koinViewModel
@@ -28,7 +27,25 @@ fun AppNavHost(
 ) {
 
     val navigationActions = NavigationActions(navHostController)
-    val prefHelper: AppSharedPref = koinInject()
+    val appFlowManager: AppFlowManager = koinInject()
+
+    // The order is fixed — splash -> language -> onboarding -> main. Remote config only decides
+    // which of the middle two are skipped, so each step asks for the next one still standing.
+    val routeAfterLanguage: () -> String = {
+        if (appFlowManager.shouldShowOnboarding()) {
+            AppRoute.OnboardingRoute.route
+        } else {
+            AppRoute.MainRoute.route
+        }
+    }
+
+    val routeAfterSplash: () -> String = {
+        if (appFlowManager.shouldShowLanguage()) {
+            AppRoute.LanguageRoute.createRoute(fromSplash = true)
+        } else {
+            routeAfterLanguage()
+        }
+    }
 
     NavHost(
         navController = navHostController,
@@ -37,11 +54,7 @@ fun AppNavHost(
         composable(AppRoute.SplashRoute.route) {
             SplashScreen(
                 moveToNext = {
-                    if (prefHelper.isOnboardingCompleted) {
-                        navigationActions.goToMainScreen()
-                    } else {
-                        navigationActions.goToLanguageFromSplash()
-                    }
+                    navigationActions.navigateAsRoot(routeAfterSplash())
                 })
         }
 
@@ -75,10 +88,10 @@ fun AppNavHost(
 
             val activity = LocalActivity.current as Activity
 
-            // During the first run there is nothing behind this screen to go back to, so Back moves
-            // forward instead. Opened from settings, it behaves like any other pushed screen.
+            // In the first-run flow there is nothing behind this screen, so Back moves on to the
+            // next step instead of popping. Opened from settings it behaves like any pushed screen.
             val onBack: () -> Unit = if (fromSplash) {
-                navigationActions.goToOnboarding
+                { navigationActions.navigateAsRoot(routeAfterLanguage()) }
             } else {
                 navigationActions.goBack
             }
@@ -90,7 +103,7 @@ fun AppNavHost(
                 onBackClick = onBack,
                 onApplyClick = {
                     val next = if (fromSplash) {
-                        AppRoute.OnboardingRoute.route
+                        routeAfterLanguage()
                     } else {
                         AppRoute.MainRoute.route
                     }
@@ -101,19 +114,12 @@ fun AppNavHost(
 
         composable(AppRoute.OnboardingRoute.route) {
 
-            val viewModel: OnboardingViewModel = koinViewModel()
-
-            val finishOnboarding: () -> Unit = {
-                viewModel.completeOnboarding()
-                navigationActions.goToMainScreen()
-            }
-
             // Same rule as the language screen: Back advances into the app.
-            BackHandler(onBack = finishOnboarding)
+            BackHandler(onBack = navigationActions.goToMainScreen)
 
             OnboardingScreen(
-                viewModel = viewModel,
-                onFinish = finishOnboarding
+                viewModel = koinViewModel(),
+                onFinish = navigationActions.goToMainScreen
             )
         }
     }
