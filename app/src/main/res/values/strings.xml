@@ -28,6 +28,17 @@
     <string name="splash_tap_to_continue">Tap below to continue</string>
     <string name="splash_show_ad_and_continue">Show Ad &amp; Continue</string>
 
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_get_started">Get Started</string>
+    <string name="onboarding_title_1">Welcome</string>
+    <string name="onboarding_description_1">A short line about what your app does and why it is worth keeping.</string>
+    <string name="onboarding_title_2">Stay Organized</string>
+    <string name="onboarding_description_2">Describe the second thing that makes your app useful day to day.</string>
+    <string name="onboarding_title_3">You Are All Set</string>
+    <string name="onboarding_description_3">Close with the payoff, then send the user into the app.</string>
+
     <!-- Subscription -->
     <string name="subscription_premium_plans">Premium Plans</string>
     <string name="subscription_plans">Subscription Plans</string>

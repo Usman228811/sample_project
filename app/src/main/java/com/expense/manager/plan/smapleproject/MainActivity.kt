@@ -26,8 +26,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val languageChange = intent?.extras?.getBoolean("languageChange", false) ?: false
-        if (languageChange.not()) {
+        // Set when the Activity is relaunched to apply a locale, so the flow resumes where it left
+        // off instead of replaying the splash.
+        val startRoute = intent?.extras?.getString(EXTRA_START_ROUTE)
+
+        // Only a locale relaunch carries a start route; a cold launch is the one that has to boot
+        // the SDK and begin at the splash.
+        if (startRoute == null) {
             (appContext as AppClass).initializeAppClass()
             AdKit.openAdManager.setCurrentNavigationRoute(AppRoute.SplashRoute.route)
         }
@@ -57,10 +62,14 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(innerPadding)
                     ) {
-                        AppNavHost(navHostController, languageChange)
+                        AppNavHost(navHostController, startRoute)
                     }
                 }
             }
         }
+    }
+
+    companion object {
+        const val EXTRA_START_ROUTE = "startRoute"
     }
 }

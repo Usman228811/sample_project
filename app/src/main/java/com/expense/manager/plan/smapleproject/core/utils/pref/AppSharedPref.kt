@@ -39,6 +39,13 @@ class AppSharedPref(context: Context) {
         prefs.edit { putBoolean(key, value) }
     }
 
+    /** False until the user finishes the first-run flow (language -> onboarding). */
+    var isOnboardingCompleted: Boolean
+        get() = prefs.getBoolean(KEY_ONBOARDING_COMPLETED, false)
+        set(value) {
+            prefs.edit { putBoolean(KEY_ONBOARDING_COMPLETED, value) }
+        }
+
     var selectedLanguageKey: String
         get() = prefs.getString(KEY_LANGUAGE_KEY, DEFAULT_LANGUAGE_KEY) ?: DEFAULT_LANGUAGE_KEY
         set(value) {
@@ -85,6 +92,7 @@ class AppSharedPref(context: Context) {
         private const val KEY_DYNAMIC_COLOR = "dynamic_color"
         private const val KEY_LANGUAGE_KEY = "selectedLanguageKey"
         private const val KEY_LANGUAGE_NAME = "selectedLanguageName"
+        private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
 
         private const val DEFAULT_DARK_MODE = false
         private const val DEFAULT_NOTIFICATIONS = true
