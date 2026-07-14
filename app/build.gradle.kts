@@ -17,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.expense.manager.plan.smapleproject"
+        applicationId = "com.photocleaner.swipetodelete.psma"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

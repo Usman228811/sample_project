@@ -10,6 +10,7 @@ import com.expense.manager.plan.smapleproject.core.di.dataModule
 import com.expense.manager.plan.smapleproject.core.di.domainModule
 import com.expense.manager.plan.smapleproject.core.di.presentationModule
 import com.expense.manager.plan.smapleproject.core.utils.AppLocaleManager
+import com.expense.manager.plan.smapleproject.presentation.navigation.AppRoute
 import io.monetize.kit.sdk.BuildConfig
 import io.monetize.kit.sdk.core.utils.adtype.BannerAdType
 import io.monetize.kit.sdk.core.utils.adtype.NativeAdType
@@ -114,6 +115,11 @@ class AppClass : Application(), Application.ActivityLifecycleCallbacks {
             onInitSdk = {
                 AdKit.analytics.showToast(false)
                 AdKit.initializer.disableAds(false)
+
+                AdKit.openAdManager.excludeNavigationRoutesFromOpenAd(
+                    AppRoute.SplashRoute.route,
+                    AppRoute.PremiumRoute.route
+                )
             }
         )
 
