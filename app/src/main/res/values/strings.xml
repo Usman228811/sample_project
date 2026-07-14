@@ -1,3 +1,45 @@
 <resources>
     <string name="app_name">SmapleProject</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home -->
+    <string name="premium_screen">Premium Screen</string>
+
+    <!-- Settings -->
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_dynamic_color">Dynamic Color</string>
+    <string name="settings_language">Language</string>
+
+    <!-- Language -->
+    <string name="language_title">Language</string>
+    <string name="language_search">Search language</string>
+    <string name="language_apply">Apply</string>
+    <string name="back">Back</string>
+
+    <!-- Splash -->
+    <string name="splash_preparing_experience">Preparing Experience…</string>
+    <string name="splash_launching_ad">Launching Ad…</string>
+    <string name="splash_ad_ready">Ad Ready</string>
+    <string name="splash_tap_to_continue">Tap below to continue</string>
+    <string name="splash_show_ad_and_continue">Show Ad &amp; Continue</string>
+
+    <!-- Subscription -->
+    <string name="subscription_premium_plans">Premium Plans</string>
+    <string name="subscription_plans">Subscription Plans</string>
+    <string name="subscription_lifetime_plan">Lifetime Plan</string>
+    <string name="subscription_remove_ads">Remove Ads</string>
+    <string name="subscription_feature_1">Feature 1</string>
+    <string name="subscription_feature_2">Feature 2</string>
+    <string name="subscription_feature_3">Feature 3</string>
+    <string name="subscription_subscribe">Subscribe</string>
+    <string name="subscription_cancel">Cancel Subscription</string>
+    <string name="subscription_update">Update Subscription</string>
+    <string name="subscription_purchase_one_time">Purchase one time</string>
+    <string name="subscription_purchased">Purchased</string>
+    <string name="subscription_paywall_dismissed">Purchase cancelled</string>
 </resources>

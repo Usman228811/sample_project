@@ -1,6 +1,7 @@
 package com.expense.manager.plan.smapleproject.core.di
 
 import com.expense.manager.plan.smapleproject.presentation.AppViewModel
+import com.expense.manager.plan.smapleproject.presentation.screens.language.LanguageViewModel
 import com.expense.manager.plan.smapleproject.presentation.screens.main.MainScreenViewModel
 import com.expense.manager.plan.smapleproject.presentation.screens.premium.SubscriptionViewModel
 import com.expense.manager.plan.smapleproject.presentation.screens.settings.SettingsViewModel
@@ -16,5 +17,6 @@ val presentationModule = module {
     viewModelOf(::MainScreenViewModel)
     viewModelOf(::SettingsViewModel)
     viewModelOf(::SubscriptionViewModel)
+    viewModelOf(::LanguageViewModel)
 
 }

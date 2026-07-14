@@ -2,11 +2,13 @@ package com.expense.manager.plan.smapleproject
 
 import android.R.attr.banner
 import android.app.Application
+import android.app.LocaleManager
 import android.util.Log
 import com.expense.manager.plan.smapleproject.core.di.appModule
 import com.expense.manager.plan.smapleproject.core.di.dataModule
 import com.expense.manager.plan.smapleproject.core.di.domainModule
 import com.expense.manager.plan.smapleproject.core.di.presentationModule
+import com.expense.manager.plan.smapleproject.core.utils.AppLocaleManager
 import com.expense.manager.plan.smapleproject.presentation.navigation.AppRoute
 import io.monetize.kit.sdk.BuildConfig
 import io.monetize.kit.sdk.core.utils.adtype.BannerAdType
@@ -20,6 +22,8 @@ class AppClass : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        AppLocaleManager.applyStoredLocale(this)
         startKoin {
             androidContext(this@AppClass)
             modules(appModule, dataModule, domainModule, presentationModule)

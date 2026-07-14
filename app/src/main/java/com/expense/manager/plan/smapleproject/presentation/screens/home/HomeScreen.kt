@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.expense.manager.plan.smapleproject.R
 
 @Composable
 fun HomeScreen(
@@ -25,7 +27,7 @@ fun HomeScreen(
             goPremium()
 
         }) {
-            Text("Premium Screen")
+            Text(stringResource(R.string.premium_screen))
         }
 
     }

@@ -38,6 +38,18 @@ class AppSharedPref(context: Context) {
         prefs.edit { putBoolean(key, value) }
     }
 
+    var selectedLanguageKey: String
+        get() = prefs.getString("selectedLanguageKey", "en") ?: "en"
+        set(value) {
+            prefs.edit { putString("selectedLanguageKey", value) }
+        }
+
+    var selectedLanguageName: String
+        get() = prefs.getString("selectedLanguageName", "English") ?: "English"
+        set(value) {
+            prefs.edit { putString("selectedLanguageName", value) }
+        }
+
     private fun booleanFlow(key: String, default: Boolean): Flow<Boolean> = callbackFlow {
         trySend(prefs.getBoolean(key, default))
 

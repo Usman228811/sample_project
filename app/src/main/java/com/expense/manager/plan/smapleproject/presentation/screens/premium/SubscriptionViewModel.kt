@@ -3,8 +3,10 @@ package com.expense.manager.plan.smapleproject.presentation.screens.premium
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.expense.manager.plan.smapleproject.R
 import com.expense.manager.plan.smapleproject.core.utils.FEATURE_1
 import com.expense.manager.plan.smapleproject.core.utils.FEATURE_2
 import com.expense.manager.plan.smapleproject.core.utils.FEATURE_3
@@ -26,8 +28,8 @@ data class SubscriptionScreenState(
     val feature2Price: String = "",
     val feature3Price: String = "",
     val selectedButtonPos: Int = 0,
-    val buttonText: String = "subscribe",
-    val buttonTextLifeTime: String = "purchase one time",
+    @StringRes val buttonText: Int = R.string.subscription_subscribe,
+    @StringRes val buttonTextLifeTime: Int = R.string.subscription_purchase_one_time,
     val oneTimePrice: String = "",
     val purchasesList: List<String> = emptyList()
 )
@@ -102,7 +104,11 @@ class SubscriptionViewModel : ViewModel() {
                             feature2Price = "${feature2Price.mainOfferText}",
                             feature3Price = "${feature3Price.mainOfferText}",
                             oneTimePrice = AdKit.premiumHelper.getBillingPrice(LIFE_TIME_ID).mainOfferText?: "",
-                            buttonTextLifeTime = if (premiumState.allPurchases.contains(LIFE_TIME_ID)) "purchased" else "purchase one time",
+                            buttonTextLifeTime = if (premiumState.allPurchases.contains(LIFE_TIME_ID)) {
+                                R.string.subscription_purchased
+                            } else {
+                                R.string.subscription_purchase_one_time
+                            },
                             purchasesList = premiumState.allPurchases
                         )
                     }
@@ -123,14 +129,14 @@ class SubscriptionViewModel : ViewModel() {
         val purchases = state.value.purchasesList
 
         val buttonText = when {
-            purchases.isEmpty() -> "Subscribe"
+            purchases.isEmpty() -> R.string.subscription_subscribe
 
             selectedId != null && purchases.contains(selectedId) ->
-                "Cancel Subscription"
+                R.string.subscription_cancel
 
             purchases.isNotEmpty() &&
                     AdKit.premiumHelper.isSubscriptionUpdateSupported() ->
-                "Update Subscription"
+                R.string.subscription_update
 
             else -> state.value.buttonText
         }
@@ -178,7 +184,7 @@ class SubscriptionViewModel : ViewModel() {
             onUserDismissedPaywall = {
                 Toast.makeText(
                     activity,
-                    "one time purchase: user dismissed the paywall",
+                    R.string.subscription_paywall_dismissed,
                     Toast.LENGTH_SHORT
                 ).show()
                 Log.d("usman", "one time purchase: user dismissed the paywall")

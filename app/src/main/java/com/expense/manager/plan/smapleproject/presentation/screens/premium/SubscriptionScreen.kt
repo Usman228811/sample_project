@@ -33,11 +33,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.expense.manager.plan.smapleproject.R
 import io.monetize.kit.sdk.core.utils.adtype.BannerControllerConfig
 import io.monetize.kit.sdk.core.utils.adtype.NativeControllerConfig
 import io.monetize.kit.sdk.presentation.ui.banner.AdKitBannerAdView
@@ -85,7 +86,7 @@ fun SubscriptionScreen(
         ) {
 
             Text(
-                text = "Premium Plans",
+                text = stringResource(R.string.subscription_premium_plans),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 color = Color.White,
@@ -101,10 +102,10 @@ fun SubscriptionScreen(
                 .padding(16.dp)
         ) {
 
-            SectionTitle("Subscription Plans")
+            SectionTitle(stringResource(R.string.subscription_plans))
 
             SubscriptionOption(
-                title = "Remove Ads",
+                title = stringResource(R.string.subscription_remove_ads),
                 price = state.removeAdsPrice,
                 isSelected = state.selectedButtonPos == 0,
                 onClick = { subscriptionViewModel.updateSelectedButtonPos(0) }
@@ -113,7 +114,7 @@ fun SubscriptionScreen(
             Spacer(Modifier.height(12.dp))
 
             SubscriptionOption(
-                title = "Feature 1",
+                title = stringResource(R.string.subscription_feature_1),
                 price = state.feature1Price,
                 isSelected = state.selectedButtonPos == 1,
                 onClick = { subscriptionViewModel.updateSelectedButtonPos(1) }
@@ -122,7 +123,7 @@ fun SubscriptionScreen(
             Spacer(Modifier.height(12.dp))
 
             SubscriptionOption(
-                title = "Feature 2",
+                title = stringResource(R.string.subscription_feature_2),
                 price = state.feature2Price,
                 isSelected = state.selectedButtonPos == 2,
                 onClick = { subscriptionViewModel.updateSelectedButtonPos(2) }
@@ -131,7 +132,7 @@ fun SubscriptionScreen(
             Spacer(Modifier.height(12.dp))
 
             SubscriptionOption(
-                title = "Feature 3",
+                title = stringResource(R.string.subscription_feature_3),
                 price = state.feature3Price,
                 isSelected = state.selectedButtonPos == 3,
                 onClick = { subscriptionViewModel.updateSelectedButtonPos(3) }
@@ -140,7 +141,7 @@ fun SubscriptionScreen(
             Spacer(Modifier.height(16.dp))
 
             PrimaryButton(
-                text = state.buttonText,
+                text = stringResource(state.buttonText),
                 onClick = { subscriptionViewModel.purchase(activity) }
             )
 
@@ -150,7 +151,7 @@ fun SubscriptionScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            SectionTitle("Lifetime Plan")
+            SectionTitle(stringResource(R.string.subscription_lifetime_plan))
 
             Text(
                 text = state.oneTimePrice,
@@ -164,7 +165,7 @@ fun SubscriptionScreen(
             )
 
             PrimaryButton(
-                text = state.buttonTextLifeTime,
+                text = stringResource(state.buttonTextLifeTime),
                 onClick = { subscriptionViewModel.purchaseProduct(activity) }
             )
 

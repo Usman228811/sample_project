@@ -17,5 +17,13 @@ class NavigationActions(private val navHostController: NavHostController) {
         navHostController.navigate(AppRoute.PremiumRoute.route)
     }
 
+    val goToLanguage: () -> Unit = {
+        navHostController.navigate(AppRoute.LanguageRoute.route)
+    }
+
+    val goBack: () -> Unit = {
+        navHostController.popBackStack()
+    }
+
 
 }

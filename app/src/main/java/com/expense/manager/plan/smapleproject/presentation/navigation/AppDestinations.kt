@@ -8,4 +8,6 @@ sealed class AppRoute(val route: String) {
 
     data object PremiumRoute : AppRoute("Premium")
 
+    data object LanguageRoute : AppRoute("language")
+
 }

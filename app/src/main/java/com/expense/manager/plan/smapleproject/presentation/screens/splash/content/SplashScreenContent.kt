@@ -18,9 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.expense.manager.plan.smapleproject.R
 import com.expense.manager.plan.smapleproject.presentation.screens.splash.state.SplashScreenState
 
 @Composable
@@ -59,7 +61,7 @@ fun SplashScreenContent(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        text = "Preparing Experience...",
+                        text = stringResource(R.string.splash_preparing_experience),
                         color = Color(0xFF2E2F6E),
                         fontWeight = FontWeight.Medium
                     )
@@ -79,7 +81,7 @@ fun SplashScreenContent(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        text = "Launching Ad...",
+                        text = stringResource(R.string.splash_launching_ad),
                         color = Color(0xFF2E2F6E)
                     )
                 }
@@ -110,7 +112,7 @@ fun SplashScreenContent(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Ad Ready",
+                        text = stringResource(R.string.splash_ad_ready),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF2E2F6E)
@@ -119,7 +121,7 @@ fun SplashScreenContent(
                     Spacer(modifier = Modifier.height(6.dp))
 
                     Text(
-                        text = "Tap below to continue",
+                        text = stringResource(R.string.splash_tap_to_continue),
                         color = Color.Gray,
                         fontSize = 13.sp
                     )
@@ -134,7 +136,7 @@ fun SplashScreenContent(
                         )
                     ) {
                         Text(
-                            text = "Show Ad & Continue",
+                            text = stringResource(R.string.splash_show_ad_and_continue),
                             color = Color.White,
                             fontWeight = FontWeight.Bold
                         )

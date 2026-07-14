@@ -16,7 +16,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun MainScreen(
     viewModel: MainScreenViewModel = koinViewModel(),
-    goPremium:() ->Unit
+    goPremium: () -> Unit,
+    goLanguage: () -> Unit
 
 ) {
 
@@ -43,7 +44,9 @@ fun MainScreen(
                 }
 
                 2 -> {
-                    SettingsScreen()
+                    SettingsScreen(
+                        goLanguage = goLanguage
+                    )
                 }
             }
 
